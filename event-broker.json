@@ -1,0 +1,3939 @@
+{
+  "basePath": "/event-broker-service",
+  "paths": {
+    "/api/topics/{eventTopicId}/principals/{principalId}": {
+      "get": {
+        "summary": "Get permisions for Event Topic",
+        "description": "Get permisions for Event Topic and for specified principal.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/EventTopicPermissions"
+            },
+            "description": "\u0027Success\u0027 with the permissions"
+          },
+          "404": {
+            "description": "\u0027Not found\u0027 if no such permission can be found."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventTopicId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "principalId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "principal",
+          "permission",
+          "create",
+          "register",
+          "update"
+        ]
+      },
+      "delete": {
+        "summary": "Delete permission for Event Topic",
+        "description": "Delete permission for Event Topic for specific principal.",
+        "responses": {
+          "204": {
+            "description": "\u0027No Content\u0027 is returned on succesfull delete."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventTopicId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "principalId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "principal",
+          "permission",
+          "delete"
+        ]
+      },
+      "put": {
+        "summary": "Create permission for Event Topic",
+        "description": "Create permission for Event Topic for specified principal.",
+        "responses": {
+          "204": {
+            "description": "\u0027Created\u0027 on success"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventTopicId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "principalId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/EventTopicPermissions"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "principal",
+          "permission",
+          "create",
+          "update"
+        ]
+      }
+    },
+    "/api/subscriptions/active": {
+      "get": {
+        "summary": "Get Active Subscriptions",
+        "description": "Get Active Subscriptions.",
+        "operationId": "getActiveSubscriptions",
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ActiveSubscription"
+              }
+            },
+            "description": "\u0027Success\u0027 with ActiveSubscriptions"
+          }
+        },
+        "tags": [
+          "subscription",
+          "get"
+        ]
+      }
+    },
+    "/api/data-service/data/{classId}/{id}": {
+      "post": {
+        "summary": "Get a set of data for the specified object",
+        "description": "Get a set of data for the specified object.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DynamicDataResponse"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The identifier of the type of object to get data for.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The unique id of the object to get data for. This should be sufficient to identify the object given classId.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/DynamicDataRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/instances/{id}": {
+      "get": {
+        "summary": "Get the schema for the specified object",
+        "description": "This returns the schema of a particular type adjusted to the state of a specific instance..",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object to retrieve the schema for.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The unique identifier of an instance of the object.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/topics/{id}": {
+      "get": {
+        "summary": "Retrieves Event Topic",
+        "description": "Retrieves Event Topic by id.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/EventTopic"
+            },
+            "description": "\u0027Success\u0027 with the Event Topic"
+          },
+          "404": {
+            "description": "\u0027Not found\u0027 if no Event Topic with provided id"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "pattern": ".+$",
+            "description": "the id of Event Topic",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "get"
+        ]
+      },
+      "delete": {
+        "summary": "Unregisters an Event Topic",
+        "description": "Unregisters an Event Topic",
+        "operationId": "unregisterEventTopic",
+        "responses": {
+          "204": {
+            "description": "\u0027No Content\u0027 is returned on succesfull delete."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "pattern": ".+$",
+            "description": "the id of EventTopic",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "delete",
+          "unregister"
+        ]
+      },
+      "put": {
+        "summary": "Creates or updates an Event Topic",
+        "description": "Creates or updates an Event Topic",
+        "operationId": "updateEventTopic",
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            },
+            "description": "\u0027Created\u0027 is returned if new eventTopic with the eventTopic url in the location header of the response"
+          },
+          "204": {
+            "description": "\u0027No Content\u0027 is returned when updated"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "pattern": ".+$",
+            "description": "the id of Event Topic",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/EventTopic"
+            },
+            "in": "body",
+            "name": "body",
+            "description": "the Event Topic to register or update",
+            "required": true
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "create",
+          "register",
+          "update"
+        ]
+      }
+    },
+    "/api/subscriptions/{id}": {
+      "get": {
+        "summary": "Retrieves Subscription",
+        "description": "Retrieves Subscription by id.",
+        "operationId": "getSubscription",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            },
+            "description": "\u0027Success\u0027 with the Subscription"
+          },
+          "404": {
+            "description": "\u0027Not found\u0027 if no Subscription with provided id"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "pattern": ".+$",
+            "description": "the id of Subscription",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "subscription",
+          "get"
+        ]
+      },
+      "delete": {
+        "summary": "Delete Subscription",
+        "description": "Delete Subscription. Only Solution users and system admin (e.g. for vRO) can manage subscriptions.",
+        "operationId": "deleteSubscription",
+        "responses": {
+          "204": {
+            "description": "\u0027No Content\u0027 is returned on succesfull delete."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "pattern": ".+$",
+            "description": "the id of Subscription",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "subscription",
+          "delete",
+          "unregister"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/types/{typeFilter}/update": {
+      "post": {
+        "summary": "Get the state of a field in the specified schema",
+        "description": "Get the state of a field in the specified schema.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/formUpdateResponse"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "typeFilter",
+            "description": "A type filter defining the specific subtype that owns the field.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/batchElementUpdateRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/topics": {
+      "post": {
+        "summary": "Registers Event Topic",
+        "description": "Registers or updates Event Topic. The operation is idempotent.",
+        "operationId": "registerEventTopic",
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/EventTopic"
+            },
+            "description": "\u0027Created\u0027 with the newly registered Event Topic"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/EventTopic"
+            },
+            "in": "body",
+            "name": "body",
+            "description": "the Event Topic to register or update",
+            "required": true
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "create",
+          "register",
+          "update"
+        ]
+      },
+      "get": {
+        "summary": "Get all Event Topics",
+        "description": "Get all Event Topics with specified pageing parameters.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/PageEventTopic"
+            },
+            "description": "\u0027Success\u0027 with Event Topics on pages"
+          }
+        },
+        "parameters": [
+          {
+            "default": 1,
+            "in": "query",
+            "name": "page",
+            "description": "Page Number",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "default": 20,
+            "in": "query",
+            "name": "limit",
+            "description": "Number of entries per page",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "description": "Multiple comma-separated properties sorted in ascending or descending order",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "description": "Sets the number of returned entries from the top of the response (total number per page in relation to skip)",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "description": "Sets how many entries you would like to skip",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "description": "Boolean expression for whether a particular entry should be included in the response",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "tags": [
+          "eventTopic",
+          "get",
+          "get-all"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/instances/{id}/{fieldId}/values": {
+      "post": {
+        "summary": "Get the permissible values of a field in the specified schema",
+        "description": "Get the permissible values of a field in the specified schema.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/elementValues"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The unique identifier of an instance of the object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "fieldId",
+            "description": "The id of a field on the schema of the specified object class.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/elementValuesRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/topics/replyable": {
+      "post": {
+        "summary": "Registers or updates a replyable Event Topic",
+        "description": "Registers or updates a replyable Event Topic. The operation is idempotent.",
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            },
+            "description": "\u0027Created\u0027 with subscription"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/EventTopic"
+            },
+            "in": "body",
+            "name": "body",
+            "description": "the Event Topic to register or update",
+            "required": true
+          }
+        ],
+        "tags": [
+          "replyable",
+          "eventTopic",
+          "create",
+          "register",
+          "update"
+        ]
+      }
+    },
+    "/api/subscriptions/{subscriptionId}/requeue": {
+      "post": {
+        "summary": "Requeue event for subscription id",
+        "description": "Requeue event for the subscription queue with id.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseEvent"
+            },
+            "description": "successful operation"
+          },
+          "201": {
+            "description": "\u0027Success\u0027 with Event"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subscriptionId",
+            "description": "the id of Subscription",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/BaseEvent"
+            },
+            "in": "body",
+            "name": "body",
+            "description": "Event object",
+            "required": true
+          }
+        ],
+        "tags": [
+          "event",
+          "subscription",
+          "requeue"
+        ]
+      }
+    },
+    "/api/subscriptions": {
+      "post": {
+        "summary": "Registers Subscription",
+        "description": "Registers Subscription. Only Solution users and system admin (e.g. for vRO) can manage subscriptions.",
+        "operationId": "registerSubscription",
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            },
+            "description": "\u0027Created\u0027 with the newly registered Subscription"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/SubscriptionSpec"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "subscription",
+          "create",
+          "register",
+          "update"
+        ]
+      },
+      "get": {
+        "summary": "Get all Subscriptions",
+        "description": "Get all Subscriptions with specified pageing parameters.",
+        "operationId": "getAllSubscriptions",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/PageSubscription"
+            },
+            "description": "\u0027Success\u0027 with Subscriptions on pages"
+          }
+        },
+        "parameters": [
+          {
+            "default": 1,
+            "in": "query",
+            "name": "page",
+            "description": "Page Number",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "default": 20,
+            "in": "query",
+            "name": "limit",
+            "description": "Number of entries per page",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "description": "Multiple comma-separated properties sorted in ascending or descending order",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "description": "Sets the number of returned entries from the top of the response (total number per page in relation to skip)",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "description": "Sets how many entries you would like to skip",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "description": "Boolean expression for whether a particular entry should be included in the response",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "tags": [
+          "subscription",
+          "get",
+          "get-all"
+        ]
+      }
+    },
+    "/api/data-service/list/{classId}/default": {
+      "post": {
+        "summary": "Retrieves the list of possible values for a given type of object",
+        "description": "Retrieves the list of possible values for a given type of object.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/elementValues"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/elementValuesRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/instances/{id}/update": {
+      "post": {
+        "summary": "Get the state of a field in the specified schema",
+        "description": "Get the state of a field in the specified schema.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/formUpdateResponse"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The unique identifier of an instance of the object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/batchElementUpdateRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/types/{typeFilter}": {
+      "get": {
+        "summary": "Get the schema for the specified object type",
+        "description": "This returns the schema of a particular type within a class of object.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object to retrieve the schema for.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "typeFilter",
+            "description": "A type filter defining the specific subtype that owns the field.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/default/{fieldId}/values": {
+      "post": {
+        "summary": "Get the permissible values of a field in the specified schema",
+        "description": "Get the permissible values of a field in the specified schema.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/elementValues"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "fieldId",
+            "description": "The id of a field on the schema of the specified object class.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/elementValuesRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/default/update": {
+      "post": {
+        "summary": "Get the state of a field in the specified schema",
+        "description": "Get the state of a field in the specified schema.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/formUpdateResponse"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/batchElementUpdateRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/types/{typeFilter}/{fieldId}/values": {
+      "post": {
+        "summary": "Get the permissible values of a field in the specified schema",
+        "description": "Get the permissible values of a field in the specified schema.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/elementValues"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "typeFilter",
+            "description": "A type filter defining the specific subtype that owns the field.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "fieldId",
+            "description": "The id of a field on the schema of the specified object class.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/elementValuesRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/data-service/schema/{classId}/default": {
+      "get": {
+        "summary": "Get the schema for the specified object class",
+        "description": "Get the schema for the specified object class.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object to retrieve the schema for.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/topics/{id}/replyable/subscription": {
+      "get": {
+        "summary": "Retrieves replyable Event Topics endpoint",
+        "description": "Retrieves replyable Event Topics endpoint",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            },
+            "description": "\u0027Success\u0027 with the reply Subscription or null if no Subscription for provided id."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "pattern": ".+$",
+            "description": "the id of the replyable Event Topic",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "replyable",
+          "eventTopic",
+          "get"
+        ]
+      }
+    },
+    "/api/data-service/list/{classId}/types/{typeFilter}": {
+      "post": {
+        "summary": "Retrieves the list of possible values for a given type of object",
+        "description": "Retrieves the list of possible values for a given type of object.",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/elementValues"
+            },
+            "description": "\u0027Success\u0027 with the data"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classId",
+            "description": "The class of object.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "typeFilter",
+            "description": "A type filter defining the specific subtype that owns the field.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/elementValuesRequest"
+            },
+            "in": "body",
+            "name": "body",
+            "required": true
+          }
+        ],
+        "tags": [
+          "schema",
+          "data-service",
+          "eventTopic"
+        ]
+      }
+    },
+    "/api/subscriptions/{subscriptionId}/poll/{count}": {
+      "get": {
+        "summary": "Pull events for subscription id",
+        "description": "Poll count events from the subscription queue with id.",
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BaseEvent"
+              }
+            },
+            "description": "\u0027Success\u0027 with events"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subscriptionId",
+            "description": "the id of Subscription",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "count",
+            "format": "int32",
+            "description": "count of events to return",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "tags": [
+          "event",
+          "subscription",
+          "get",
+          "pool"
+        ]
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "definitions": {
+    "decimalLiteral": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "decimalLiteral"
+          },
+          "description": "Wraps a decimal value.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "format": "double",
+              "description": "The decimal value.",
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "IncrementBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "ReadOnlyConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "VisibilityConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "formUpdateResponse": {
+      "xml": {
+        "name": "formUpdateResponse"
+      },
+      "type": "object",
+      "properties": {
+        "elementUpdates": {
+          "xml": {
+            "name": "elementUpdate",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/updateElementEntry"
+          }
+        }
+      }
+    },
+    "InternalConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "LiteralMapEntry": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/literal"
+        },
+        "key": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        }
+      }
+    },
+    "Subscription": {
+      "xml": {
+        "name": "Subscription"
+      },
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "xml": {
+            "attribute": true
+          },
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 2083
+        },
+        "endpoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubscriptionEndpoint"
+          }
+        },
+        "blocking": {
+          "default": false,
+          "xml": {
+            "attribute": true
+          },
+          "type": "boolean"
+        },
+        "criteria": {
+          "type": "string"
+        },
+        "subscriberId": {
+          "xml": {
+            "attribute": true
+          },
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 255
+        },
+        "description": {
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 2000
+        },
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "eventTopicId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "requeueDelay": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reply": {
+          "default": false,
+          "xml": {
+            "attribute": true
+          },
+          "type": "boolean"
+        },
+        "messageTTL": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "moneyRate": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "moneyRate"
+          },
+          "description": "A base type for literals representing a rate of some monetary value over a specified basis. E.g. $5 / hour; $1-2 / GB.",
+          "type": "object",
+          "properties": {
+            "cost": {
+              "description": "The cost (including optional currency code).",
+              "$ref": "#/definitions/literal"
+            }
+          }
+        }
+      ]
+    },
+    "LayoutReference": {
+      "type": "object",
+      "discriminator": "type"
+    },
+    "ConditionalEvaluatorCase": {
+      "type": "object",
+      "properties": {
+        "condition": {
+          "$ref": "#/definitions/Clause"
+        },
+        "value": {
+          "$ref": "#/definitions/Evaluator"
+        }
+      }
+    },
+    "ContextPermissibleValueList": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PermissibleValueList"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "MaxCardinalityConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "entityRefEx": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "entityRefEx"
+          },
+          "description": "Represents a reference to an entity by uri",
+          "type": "object",
+          "properties": {
+            "href": {
+              "description": "the Href",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "OrClause": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "subClauses": {
+              "xml": {
+                "name": "clause"
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Clause"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "LayoutSection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/ElementState"
+        },
+        "rows": {
+          "xml": {
+            "name": "row",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LayoutRow"
+          }
+        }
+      }
+    },
+    "MaxLengthConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "CustomPropertyDefinitionMetadata": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object",
+          "required": [
+            "field"
+          ],
+          "properties": {
+            "field": {
+              "$ref": "#/definitions/Field"
+            }
+          }
+        }
+      ]
+    },
+    "SchemaReference": {
+      "type": "object",
+      "discriminator": "type"
+    },
+    "LessThanOrEqualsOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "PrimitiveDataType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "typeId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string",
+              "enum": [
+                "STRING",
+                "INTEGER",
+                "DECIMAL",
+                "MONEY",
+                "MONEY_RANGE",
+                "MONEY_TIME_RATE",
+                "BOOLEAN",
+                "ENTITY_REFERENCE",
+                "DATE_TIME",
+                "TIME_SPAN",
+                "SECURE_STRING",
+                "COMPLEX"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "multipleLiteral": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "multipleLiteral"
+          },
+          "description": "A literal which represents multiple values. All of these component values must be of the same data type.",
+          "type": "object",
+          "properties": {
+            "elementTypeId": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The data type of the items in the list.",
+              "type": "string",
+              "enum": [
+                "STRING",
+                "INTEGER",
+                "DECIMAL",
+                "MONEY",
+                "MONEY_RANGE",
+                "MONEY_TIME_RATE",
+                "BOOLEAN",
+                "ENTITY_REFERENCE",
+                "DATE_TIME",
+                "TIME_SPAN",
+                "SECURE_STRING",
+                "COMPLEX"
+              ]
+            },
+            "items": {
+              "xml": {
+                "name": "item"
+              },
+              "description": "The list of specified values. NOTE: All values must be of the same data type.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/literal"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ExtensionRendererContext": {
+      "type": "object",
+      "properties": {
+        "parameterMappings": {
+          "$ref": "#/definitions/ParameterMappingCollection"
+        },
+        "extensionId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        }
+      }
+    },
+    "EventTopic": {
+      "xml": {
+        "name": "EventTopic"
+      },
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "blockable": {
+          "default": false,
+          "type": "boolean"
+        },
+        "replySchemaReference": {
+          "$ref": "#/definitions/SchemaReference"
+        },
+        "name": {
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 255
+        },
+        "replyable": {
+          "default": false,
+          "type": "boolean"
+        },
+        "serviceTypeId": {
+          "xml": {
+            "attribute": true
+          },
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 255
+        },
+        "description": {
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 2000
+        },
+        "persistable": {
+          "default": false,
+          "type": "boolean"
+        },
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "type": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string",
+          "enum": [
+            "INTERNAL",
+            "SYSTEM",
+            "REGULAR"
+          ]
+        },
+        "schemaReference": {
+          "$ref": "#/definitions/SchemaReference"
+        }
+      }
+    },
+    "stringLiteral": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "stringLiteral"
+          },
+          "description": "Wraps a String value.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "description": "The string value.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "complexLiteral": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "complexLiteral"
+          },
+          "description": "A complex value composed of multiple values keyed by the field ids of some complex type.",
+          "type": "object",
+          "properties": {
+            "classId": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The identifier for this literal\u0027s class.",
+              "type": "string"
+            },
+            "componentId": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The identifier for this literal\u0027s component.",
+              "type": "string"
+            },
+            "typeFilter": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The type filter for this literal.",
+              "type": "string"
+            },
+            "componentTypeId": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The identifier for this literal\u0027s component type.",
+              "type": "string"
+            },
+            "values": {
+              "description": "Map of values, keyed by the field ids of some complex type.",
+              "$ref": "#/definitions/literalMap"
+            }
+          }
+        }
+      ]
+    },
+    "LayoutField": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutFlowElement"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "extensionRendererContext": {
+              "$ref": "#/definitions/ExtensionRendererContext"
+            },
+            "columns": {
+              "xml": {
+                "name": "column",
+                "wrapped": true
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LayoutField"
+              }
+            },
+            "dataType": {
+              "$ref": "#/definitions/DataType"
+            },
+            "isMultiValued": {
+              "default": false,
+              "xml": {
+                "attribute": true
+              },
+              "type": "boolean"
+            },
+            "description": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "detailLayout": {
+              "$ref": "#/definitions/LayoutReference"
+            },
+            "labelSize": {
+              "xml": {
+                "attribute": true
+              },
+              "format": "int32",
+              "type": "integer"
+            },
+            "permissibleValues": {
+              "$ref": "#/definitions/PermissibleValueList"
+            },
+            "displayAdvice": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string",
+              "enum": [
+                "TEXTBOX",
+                "HYPERLINK",
+                "EMAIL",
+                "TEXTAREA",
+                "DATE_TIME_PICKER",
+                "CHECKBOX",
+                "YES_NO",
+                "CHECKBOX_GROUP",
+                "DUAL_LIST",
+                "RADIO_GROUP",
+                "DROPDOWN",
+                "LIST",
+                "SEARCHER",
+                "TREE",
+                "FORM",
+                "IMAGE",
+                "SLIDER",
+                "DATA_TABLE",
+                "VALUE_PICKER",
+                "CONFIRM_PASSWORD"
+              ]
+            },
+            "orderIndex": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "id": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "state": {
+              "$ref": "#/definitions/ElementState"
+            }
+          }
+        }
+      ]
+    },
+    "NotClause": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "subClause": {
+              "$ref": "#/definitions/Clause"
+            }
+          }
+        }
+      ]
+    },
+    "moneyTimeRate": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "moneyTimeRate"
+          },
+          "description": "Represents a rate of money over time.",
+          "type": "object",
+          "properties": {
+            "basis": {
+              "description": "The span of time to calculate the rate of money for.",
+              "$ref": "#/definitions/timeSpan"
+            }
+          }
+        }
+      ]
+    },
+    "updateElementEntry": {
+      "xml": {
+        "name": "updateElementEntry"
+      },
+      "type": "object",
+      "properties": {
+        "permissibleValues": {
+          "xml": {
+            "name": "value",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/value"
+          }
+        },
+        "extensionRendererContext": {
+          "$ref": "#/definitions/literalMap"
+        },
+        "facetValues": {
+          "$ref": "#/definitions/FacetValueMap"
+        },
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "detailLayout": {
+          "$ref": "#/definitions/layout"
+        },
+        "errors": {
+          "xml": {
+            "name": "error",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "StartsWithOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "EventTopicPermissions": {
+      "xml": {
+        "name": "EventTopicPermissions"
+      },
+      "type": "object",
+      "properties": {
+        "canSubscribe": {
+          "default": false,
+          "xml": {
+            "attribute": true
+          },
+          "type": "boolean"
+        },
+        "canPublish": {
+          "default": false,
+          "xml": {
+            "attribute": true
+          },
+          "type": "boolean"
+        }
+      }
+    },
+    "PageEventTopic": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "size": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "last": {
+          "default": false,
+          "type": "boolean"
+        },
+        "numberOfElements": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalPages": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventTopic"
+          }
+        },
+        "first": {
+          "default": false,
+          "type": "boolean"
+        },
+        "totalElements": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "literal": {
+      "xml": {
+        "name": "literal"
+      },
+      "description": "Wraps a value such that values of different types can be treated generically.",
+      "type": "object",
+      "discriminator": "type"
+    },
+    "UnspecifiedEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "FixedValueConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "ReplyEvent": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": [
+            "originEventId"
+          ],
+          "properties": {
+            "originEventId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "error": {
+              "default": false,
+              "xml": {
+                "attribute": true
+              },
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "DataType": {
+      "type": "object",
+      "properties": {
+        "typeId": {
+          "type": "string",
+          "enum": [
+            "STRING",
+            "INTEGER",
+            "DECIMAL",
+            "MONEY",
+            "MONEY_RANGE",
+            "MONEY_TIME_RATE",
+            "BOOLEAN",
+            "ENTITY_REFERENCE",
+            "DATE_TIME",
+            "TIME_SPAN",
+            "SECURE_STRING",
+            "COMPLEX"
+          ]
+        }
+      },
+      "discriminator": "type"
+    },
+    "ExternalSchemaReference": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SchemaReference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "schemaProviderServiceTypeId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "DynamicValueContext": {
+      "type": "object",
+      "required": [
+        "parameterMappings"
+      ],
+      "properties": {
+        "parameterMappings": {
+          "$ref": "#/definitions/ParameterMappingCollection"
+        },
+        "providerEntityId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        }
+      }
+    },
+    "WithinOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "secureString": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "secureString"
+          },
+          "description": "Wraps a secured string value, such as a password.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "description": "The string value.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "FieldReference": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "path": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "MinLengthConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "GreaterThanOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "MonetaryValue": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "literal"
+          },
+          "description": "Base type for representing monetary values, encapsulating both some kind of quantity and a currency.",
+          "type": "object",
+          "properties": {
+            "currencyCode": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The ISO 4217 code used to identify the currency (if any) associated with this value.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "ContainsOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "ResetValueBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "entityRef": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "entityRef"
+          },
+          "description": "Represents a reference to an entity defined somewhere in the suite.",
+          "type": "object",
+          "properties": {
+            "classId": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The identifier of the type or category to which the referenced entity belongs.",
+              "type": "string"
+            },
+            "componentId": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The durable identifier of a component registered in the suite component registry that owns and manages the referenced entity. This can be omitted if this component can be derived from the context within which this entity reference occurs. It must be specified, if no such context exists or if the component differs from that defined by the context.",
+              "type": "string"
+            },
+            "id": {
+              "xml": {
+                "attribute": true
+              },
+              "description": "The unique identifier of the referenced entity, encoded as a string",
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "Evaluator": {
+      "type": "object",
+      "discriminator": "type"
+    },
+    "ComplexEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "classId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "componentId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "typeFilter": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "componentTypeId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "values": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Evaluator"
+              },
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "LessThanOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "Expression": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "leftOperand": {
+              "$ref": "#/definitions/Evaluator"
+            },
+            "rightOperand": {
+              "$ref": "#/definitions/Evaluator"
+            },
+            "operator": {
+              "$ref": "#/definitions/CriteriaOperator"
+            }
+          }
+        }
+      ]
+    },
+    "StaticSchema": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SchemaReference"
+        },
+        {
+          "type": "object",
+          "required": [
+            "schema"
+          ],
+          "properties": {
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            }
+          }
+        }
+      ]
+    },
+    "SkipExportBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "Event": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": [
+            "description",
+            "eventType",
+            "tenantId",
+            "userName"
+          ],
+          "properties": {
+            "targetId": {
+              "minLength": 0,
+              "type": "string",
+              "maxLength": 255
+            },
+            "tenantId": {
+              "minLength": 0,
+              "type": "string",
+              "maxLength": 255
+            },
+            "eventTypeName": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "description": {
+              "minLength": 0,
+              "type": "string",
+              "maxLength": 4000
+            },
+            "targetType": {
+              "minLength": 0,
+              "type": "string",
+              "maxLength": 255
+            },
+            "eventType": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string",
+              "enum": [
+                "REQUEST",
+                "ERROR",
+                "EXCEPTION",
+                "ALERT",
+                "CRITICAL",
+                "INFO",
+                "TASK",
+                "STATUS",
+                "AUDIT",
+                "ANY"
+              ]
+            },
+            "userName": {
+              "minLength": 0,
+              "type": "string",
+              "maxLength": 255
+            }
+          }
+        }
+      ]
+    },
+    "integerLiteral": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "integerLiteral"
+          },
+          "description": "Wraps a signed 64-bit integer value.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "format": "int64",
+              "description": "The integer value.",
+              "type": "integer"
+            }
+          }
+        }
+      ]
+    },
+    "DynamicLayoutReference": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutReference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "dependencies": {
+              "xml": {
+                "name": "dependency",
+                "wrapped": true
+              },
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CriteriaOperator": {
+      "type": "object",
+      "discriminator": "type"
+    },
+    "ParameterMappingCollection": {
+      "type": "object",
+      "properties": {
+        "params": {
+          "xml": {
+            "name": "param",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterMapping"
+          }
+        }
+      }
+    },
+    "ActiveSubscription": {
+      "xml": {
+        "name": "ActiveSubscription"
+      },
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "sessionId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "userId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        }
+      }
+    },
+    "AndClause": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "subClauses": {
+              "xml": {
+                "name": "clause"
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Clause"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Constraint": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/Evaluator"
+        }
+      },
+      "discriminator": "type"
+    },
+    "Schema": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "xml": {
+            "name": "field"
+          },
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Field"
+          }
+        }
+      }
+    },
+    "EntityReferenceDataType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataType"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "SubsetOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "elementValuesRequest": {
+      "xml": {
+        "name": "elementValuesRequest"
+      },
+      "type": "object",
+      "properties": {
+        "pagingInfo": {
+          "$ref": "#/definitions/ElementValuesPagingInfo"
+        },
+        "headers": {
+          "$ref": "#/definitions/literalMap"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "dependencyValues": {
+          "$ref": "#/definitions/literalMap"
+        },
+        "associateValue": {
+          "$ref": "#/definitions/literal"
+        }
+      }
+    },
+    "CallbackEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "EqualsOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "DynamicPermissibleValueList": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PermissibleValueList"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "context": {
+              "$ref": "#/definitions/DynamicValueContext"
+            },
+            "dependencies": {
+              "xml": {
+                "name": "dependency",
+                "wrapped": true
+              },
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MinimumValueEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "arguments": {
+              "xml": {
+                "name": "argument",
+                "wrapped": true
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evaluator"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Sort": {
+      "type": "object"
+    },
+    "timeSpan": {
+      "xml": {
+        "name": "timeSpan"
+      },
+      "description": "A literal defining period of time. This period is represented some integral number of a specified timeUnit.e.g. 6 days.",
+      "type": "object",
+      "properties": {
+        "unit": {
+          "xml": {
+            "attribute": true
+          },
+          "description": "The unit of measure for the time span. e.g: days.",
+          "type": "string",
+          "enum": [
+            "MILLISECONDS",
+            "SECONDS",
+            "MINUTES",
+            "HOURS",
+            "DAYS",
+            "WEEKS",
+            "MONTHS",
+            "YEARS"
+          ]
+        },
+        "amount": {
+          "xml": {
+            "attribute": true
+          },
+          "format": "int64",
+          "description": "The amount for the time span.",
+          "type": "integer"
+        }
+      },
+      "discriminator": "type"
+    },
+    "ExternalValue": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "required": [
+            "dynamicValueProviderInfo"
+          ],
+          "properties": {
+            "dynamicValueProviderInfo": {
+              "$ref": "#/definitions/DynamicValueContext"
+            }
+          }
+        }
+      ]
+    },
+    "CoalesceEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "arguments": {
+              "xml": {
+                "name": "argument",
+                "wrapped": true
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evaluator"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "booleanLiteral": {
+      "xml": {
+        "name": "booleanLiteral"
+      },
+      "description": "Wraps a boolean value.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "default": false,
+          "description": "The boolean value.",
+          "type": "boolean"
+        }
+      },
+      "discriminator": "type"
+    },
+    "EndsWithOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "SubscriptionSpec": {
+      "xml": {
+        "name": "SubscriptionSpec"
+      },
+      "type": "object",
+      "properties": {
+        "blocking": {
+          "default": false,
+          "xml": {
+            "attribute": true
+          },
+          "type": "boolean"
+        },
+        "criteria": {
+          "type": "string"
+        },
+        "subscriberId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "description": {
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 4000
+        },
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "eventTopicId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "requeueDelay": {
+          "xml": {
+            "attribute": true
+          },
+          "format": "int64",
+          "type": "integer"
+        },
+        "messageTTL": {
+          "xml": {
+            "attribute": true
+          },
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "FacetValueMapEntry": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/literal"
+        }
+      }
+    },
+    "MinCardinalityConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "batchElementUpdateRequest": {
+      "xml": {
+        "name": "batchElementUpdateRequest"
+      },
+      "type": "object",
+      "required": [
+        "formValues"
+      ],
+      "properties": {
+        "formValues": {
+          "$ref": "#/definitions/literalMap"
+        },
+        "headers": {
+          "$ref": "#/definitions/literalMap"
+        },
+        "trigger": {
+          "type": "string"
+        },
+        "triggeredDetailsLayout": {
+          "$ref": "#/definitions/layout"
+        },
+        "affectedElements": {
+          "xml": {
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ComplexDataType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schema": {
+              "$ref": "#/definitions/Schema"
+            }
+          }
+        }
+      ]
+    },
+    "PageSubscription": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "size": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "last": {
+          "default": false,
+          "type": "boolean"
+        },
+        "numberOfElements": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalPages": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subscription"
+          }
+        },
+        "first": {
+          "default": false,
+          "type": "boolean"
+        },
+        "totalElements": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "LayoutFlowElement": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutCell"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "LayoutFlow": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutCell"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "parts": {
+              "xml": {
+                "name": "part",
+                "wrapped": true
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LayoutFlowElement"
+              }
+            },
+            "id": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "state": {
+              "$ref": "#/definitions/ElementState"
+            }
+          }
+        }
+      ]
+    },
+    "MaximumValueEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "arguments": {
+              "xml": {
+                "name": "argument",
+                "wrapped": true
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evaluator"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "IaasPropertyNameBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "ParameterMapping": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/Evaluator"
+        },
+        "key": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        }
+      }
+    },
+    "LayoutRow": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "xml": {
+            "name": "item",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LayoutCell"
+          }
+        }
+      }
+    },
+    "NotEqualsOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "StaticPermissibleValueList": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PermissibleValueList"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "values": {
+              "xml": {
+                "name": "value"
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/value"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MinValueConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "LayoutText": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutFlowElement"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "state": {
+              "$ref": "#/definitions/ElementState"
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "RefreshOnChangeBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "ConstantValue": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "$ref": "#/definitions/literal"
+            }
+          }
+        }
+      ]
+    },
+    "PermissibleValueList": {
+      "type": "object",
+      "properties": {
+        "customAllowed": {
+          "default": false,
+          "xml": {
+            "attribute": true
+          },
+          "type": "boolean"
+        }
+      },
+      "discriminator": "type"
+    },
+    "FacetValueMap": {
+      "type": "object",
+      "properties": {
+        "facets": {
+          "xml": {
+            "name": "facet",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FacetValueMapEntry"
+          }
+        }
+      }
+    },
+    "elementValues": {
+      "xml": {
+        "name": "elementValues"
+      },
+      "type": "object",
+      "properties": {
+        "values": {
+          "xml": {
+            "name": "value",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/value"
+          }
+        }
+      }
+    },
+    "ConditionalEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cases": {
+              "xml": {
+                "name": "case"
+              },
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ConditionalEvaluatorCase"
+              }
+            },
+            "defaulValue": {
+              "$ref": "#/definitions/Evaluator"
+            }
+          }
+        }
+      ]
+    },
+    "MaxValueConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "GreaterThanOrEqualsOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "BooleanLiteral": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "booleanLiteral"
+          },
+          "description": "Wraps a boolean value.",
+          "type": "object"
+        }
+      ]
+    },
+    "LayoutExtension": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutCell"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "extensionPointId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "fieldPrefix": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "id": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "state": {
+              "$ref": "#/definitions/ElementState"
+            },
+            "extensionId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "UniqueConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "ObjectDataType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "classId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "componentId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "typeFilter": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "componentTypeId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            },
+            "label": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "DynamicDataRequest": {
+      "type": "object",
+      "properties": {
+        "ignoreUnknownFields": {
+          "default": false,
+          "type": "boolean"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "ids": {
+          "xml": {
+            "name": "id"
+          },
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SupersetOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "TimeSpan": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "timeSpan"
+          },
+          "description": "A literal defining period of time. This period is represented some integral number of a specified timeUnit.e.g. 6 days.",
+          "type": "object"
+        }
+      ]
+    },
+    "Field": {
+      "type": "object",
+      "properties": {
+        "permissibleValues": {
+          "$ref": "#/definitions/PermissibleValueList"
+        },
+        "displayAdvice": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string",
+          "enum": [
+            "TEXTBOX",
+            "HYPERLINK",
+            "EMAIL",
+            "TEXTAREA",
+            "DATE_TIME_PICKER",
+            "CHECKBOX",
+            "YES_NO",
+            "CHECKBOX_GROUP",
+            "DUAL_LIST",
+            "RADIO_GROUP",
+            "DROPDOWN",
+            "LIST",
+            "SEARCHER",
+            "TREE",
+            "FORM",
+            "IMAGE",
+            "SLIDER",
+            "DATA_TABLE",
+            "VALUE_PICKER",
+            "CONFIRM_PASSWORD"
+          ]
+        },
+        "columns": {
+          "xml": {
+            "name": "column",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Field"
+          }
+        },
+        "dataType": {
+          "$ref": "#/definitions/DataType"
+        },
+        "isMultiValued": {
+          "default": false,
+          "xml": {
+            "attribute": true
+          },
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "orderIndex": {
+          "xml": {
+            "attribute": true
+          },
+          "format": "int32",
+          "type": "integer"
+        },
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/ElementState"
+        }
+      }
+    },
+    "literalMap": {
+      "xml": {
+        "name": "literalMap"
+      },
+      "description": "Equivalent of java.util.Map",
+      "type": "object",
+      "properties": {
+        "entries": {
+          "xml": {
+            "name": "entry"
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LiteralMapEntry"
+          }
+        }
+      }
+    },
+    "LayoutPage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/ElementState"
+        },
+        "sections": {
+          "xml": {
+            "name": "section",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LayoutSection"
+          }
+        }
+      }
+    },
+    "ElementValuesPagingInfo": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "xml": {
+            "attribute": true
+          },
+          "format": "int32",
+          "type": "integer"
+        },
+        "count": {
+          "xml": {
+            "attribute": true
+          },
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "value": {
+      "xml": {
+        "name": "value"
+      },
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "underlyingValue": {
+          "$ref": "#/definitions/literal"
+        }
+      }
+    },
+    "RegexpConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "errorMessage": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "dateTimeLiteral": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "dateTimeLiteral"
+          },
+          "description": "Wraps a Date \u0026 Time value. This is a wrapper for the Java {@link Date} class.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "format": "date-time",
+              "description": "The date.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "SubscriptionEndpoint": {
+      "xml": {
+        "name": "SubscriptionEndpoint"
+      },
+      "type": "object",
+      "required": [
+        "protocol"
+      ],
+      "properties": {
+        "protocol": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string",
+          "enum": [
+            "WEBSOCKET",
+            "AMQP",
+            "REST"
+          ]
+        },
+        "endpoint": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        }
+      }
+    },
+    "CustomValidationConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "BaseEvent": {
+      "type": "object",
+      "required": [
+        "sourceIdentity",
+        "sourceType"
+      ],
+      "properties": {
+        "timeStamp": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "headers": {
+          "$ref": "#/definitions/literalMap"
+        },
+        "data": {
+          "$ref": "#/definitions/literalMap"
+        },
+        "sourceType": {
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 300
+        },
+        "correlationId": {
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 255
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "eventTopicId": {
+          "xml": {
+            "attribute": true
+          },
+          "type": "string"
+        },
+        "sourceIdentity": {
+          "minLength": 0,
+          "type": "string",
+          "maxLength": 255
+        }
+      },
+      "discriminator": "@type"
+    },
+    "EditableBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "LayoutCell": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "xml": {
+            "attribute": true
+          },
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "discriminator": "type"
+    },
+    "MandatoryConstraint": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "StaticLayout": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutReference"
+        },
+        {
+          "type": "object",
+          "required": [
+            "layout"
+          ],
+          "properties": {
+            "layout": {
+              "$ref": "#/definitions/layout"
+            }
+          }
+        }
+      ]
+    },
+    "DynamicDataResponse": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "$ref": "#/definitions/literalMap"
+        }
+      }
+    },
+    "IsDefinedOperator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CriteriaOperator"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "WrapperClause": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "$ref": "#/definitions/Evaluator"
+            }
+          }
+        }
+      ]
+    },
+    "ElementState": {
+      "type": "object",
+      "properties": {
+        "dependencies": {
+          "xml": {
+            "name": "dependency",
+            "wrapped": true
+          },
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "facets": {
+          "xml": {
+            "name": "facet",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Constraint"
+          }
+        }
+      }
+    },
+    "moneyRange": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "moneyRange"
+          },
+          "description": "Represents a range of money values, between some defined minimums and maximums.",
+          "type": "object",
+          "properties": {
+            "minValue": {
+              "format": "double",
+              "description": "The lower limit of the range.",
+              "type": "number"
+            },
+            "maxValue": {
+              "format": "double",
+              "description": "The upper limit of the range.",
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "EncryptedBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "LayoutPlaceholderCell": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/LayoutCell"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "layout": {
+      "xml": {
+        "name": "layout"
+      },
+      "type": "object",
+      "properties": {
+        "pages": {
+          "xml": {
+            "name": "page",
+            "wrapped": true
+          },
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LayoutPage"
+          }
+        }
+      }
+    },
+    "DefaultValueBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "money": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/literal"
+        },
+        {
+          "xml": {
+            "name": "money"
+          },
+          "description": "Represents a single, precise monetary value.",
+          "type": "object",
+          "properties": {
+            "amount": {
+              "format": "double",
+              "description": "The amount associated with this value (with no specific currency).",
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "ConstantClause": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "$ref": "#/definitions/booleanLiteral"
+            }
+          }
+        }
+      ]
+    },
+    "Clause": {
+      "type": "object",
+      "discriminator": "type"
+    },
+    "DisplayTextBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "MultipleEvaluator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Evaluator"
+        },
+        {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "elementTypeId": {
+              "xml": {
+                "attribute": true
+              },
+              "type": "string",
+              "enum": [
+                "STRING",
+                "INTEGER",
+                "DECIMAL",
+                "MONEY",
+                "MONEY_RANGE",
+                "MONEY_TIME_RATE",
+                "BOOLEAN",
+                "ENTITY_REFERENCE",
+                "DATE_TIME",
+                "TIME_SPAN",
+                "SECURE_STRING",
+                "COMPLEX"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evaluator"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "NullDisplayTextBehavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraint"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "swagger": "2.0",
+  "info": {
+    "description": "# Event Broker API Specification",
+    "title": "Event Broker Service API",
+    "version": "7.5.0-SNAPSHOT"
+  },
+  "tags": [
+    {
+      "name": "configuration"
+    },
+    {
+      "name": "create"
+    },
+    {
+      "name": "data-service"
+    },
+    {
+      "name": "delete"
+    },
+    {
+      "name": "event"
+    },
+    {
+      "name": "eventTopic"
+    },
+    {
+      "name": "get"
+    },
+    {
+      "name": "get-all"
+    },
+    {
+      "name": "permission"
+    },
+    {
+      "name": "pool"
+    },
+    {
+      "name": "principal"
+    },
+    {
+      "name": "register"
+    },
+    {
+      "name": "replyable"
+    },
+    {
+      "name": "requeue"
+    },
+    {
+      "name": "schema"
+    },
+    {
+      "name": "subscription"
+    },
+    {
+      "name": "unregister"
+    },
+    {
+      "name": "update"
+    }
+  ]
+}
